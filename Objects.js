@@ -86,6 +86,7 @@ function World(scene){
 	this.scene = scene;
 	this.blocks = [];
 	this.Line = new NormalLine(0,0,0,10);
+	this.lineIsDead = [false,false];
 }
 World.prototype.init = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
@@ -109,15 +110,22 @@ World.prototype.removeBlock = function(id) {
 };
 World.prototype.changeLine = function(newLine) {
 	this.scene.remove(this.Line.cube);
-	this.Line = newLine.copy(); line
+	this.Line = newLine.copy();
 };
 World.prototype.solve = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		var b = this.blocks[i];
+		var test = straightBlockTest(this.Line, b);
+		var hit = test[0] && test[1] && test[2];
 	}
 };
 World.prototype.interact = function(event) {
 	var e = event || window.event;
+	if(this.Line.direction == 0){
+		this.Line.direction = 3;
+	}else if(this.Line.direction == 3){
+		this.Line.direction = 0;
+	}
 };
 World.prototype.run = function() {
 	this.solve();

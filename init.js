@@ -19,3 +19,5 @@ var light = new THREE.PointLight(0xffffff,0,0,2);
 light.position.set(100,100,-50);
 light.castShadow = true;
 scene.add(light);
+
+var DL = new World(scene);

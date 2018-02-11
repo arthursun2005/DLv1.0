@@ -1,7 +1,8 @@
-window.onmousedown = turn;
-window.ontouchstart = turn;
-function turn(){
-}
+/*
+  There is a world called Dl form init.js
+*/
+window.onmousedown = DL.interact;
+window.ontouchstart = DL.interact;
 function autoCam(line){
   camera.rotation.x = -Math.PI/4;
   camera.rotation.z = Math.PI/4;

@@ -1,4 +1,5 @@
-// need three.js  >_
+// this file needs three.js to work
+// random stuff: >_  **** :)  :( ha )  prime[2][3][5][7][11][13] = 0;
 
 /*
 	For directions, 0 means forward, 1 means right, 2 means backwards, 3 means left;

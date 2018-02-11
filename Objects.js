@@ -50,7 +50,7 @@ function NormalLine(x,y,z,d){
 	this.cube.receiveShadow = false;
 	this.cube.castShadow = true;
 	this.direction = 0;
-	this.dv = 3;
+	this.dv = 4;
 	this.inAir = true;
 	this.direction = 0;
 }

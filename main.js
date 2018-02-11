@@ -4,15 +4,15 @@
 window.onmousedown = DL.interact;
 window.ontouchstart = DL.interact;
 
-var b  = new Block(0,-20,0,100,10,2000);
+var b  = new Block(0,-20,0,2000,10,6000);
 DL.addBlock(b);
 function autoCamera(world){
   var line = world.Line.copy();
   camera.rotation.x = -Math.PI/4;
   camera.rotation.z = Math.PI/4;
   camera.position.x+=(line.p.x-camera.position.x)*0.025;
-  camera.position.z+=(line.p.z+20-camera.position.z)*0.025;
-  camera.position.y = line.p.y+180;
+  camera.position.z+=(line.p.z+hh/8-camera.position.z)*0.025;
+  camera.position.y = line.p.y+hh/4;
 }
 var dtime;
 function animate() {

@@ -5,7 +5,7 @@ function flipString(t){
 function decimalTo(n,t){
 	var bn = n, a = "";
 	while(bn>1/t){
-		var r = bn%16;
+		var r = bn%t;
 		if(r>9 && r<46){
 			r = letters[r-10];
 		}
@@ -43,6 +43,12 @@ function mag2(x, y){
 }
 function mag3(x, y, z){
 	return Math.sqrt(Math.pow(x,2)+Math.pow(y,2)+Math.pow(z,2));
+}
+function straightBlockTest(a,b){
+	var yin = a.p.y+a.d.y/2>b.p.y-b.d.y/2 && a.p.y-a.d.y/2<b.p.y+b.d.y/2;
+    var xin = a.p.x+a.d.x/2>b.p.x-b.d.x/2 && a.p.x-a.d.x/2<b.p.x+b.d.x/2;
+    var zin = a.p.z+a.d.z/2>b.p.z-b.d.z/2 && a.p.z-a.d.z/2<b.p.z+b.d.z/2;
+    return [xin,yin,zin];
 }
 // 3D point
 function Point3(x,y,z){
@@ -88,6 +94,9 @@ Point3.prototype.ceil = function() {
 };
 Point3.prototype.get = function(){
 	return new Point(this.x,this.y,this.z);
+};
+Point3.prototype.mag = function(){
+	return mag3(this.x,this.y,this.z);
 };
 Point3.prototype.normalize = function() {
 	var n = Point3.mag(this);
@@ -180,6 +189,12 @@ Point2.prototype.rotateA = function(a,d) {
 Point2.prototype.copy = function(p) {
 	this.x = p.x;
 	this.y = p.y;
+};
+Point2.prototype.mag = function(){
+	return mag2(this.x,this.y);
+};
+Point2.prototype.heading = function(){
+	return Math.atan2(this.y,this.x)
 };
 // other
 Point2.sub = function(a,b){

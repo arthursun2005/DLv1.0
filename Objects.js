@@ -39,6 +39,7 @@ function NormalLine(x,y,z,d){
 	this.d = new THREE.Vector3(d,d,d);
 	this.v = new THREE.Vector3();
 	this.f = null;
+	this.c = 0xFFEE66;
 	this.geometry = new THREE.BoxGeometry(1,1,1);
 	this.material = new THREE.MeshLambertMaterial({color:this.c});
 	this.cube = new THREE.Mesh(this.geometry,this.material);

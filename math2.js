@@ -95,6 +95,11 @@ Point3.prototype.normalize = function() {
 	this.y/=n;
 	this.z/=n;
 };
+Point3.prototype.copy = function(p) {
+	this.x = p.x;
+	this.y = p.y;
+	this.z = p.z;
+};
 // other
 Point3.sub = function(a,b){
 	return new Point3(a.x-b.x,a.y-b.y,a.z-b.z);
@@ -171,6 +176,10 @@ Point2.prototype.rotateA = function(a,d) {
 		this.x = this.x*c-this.y*s;
 		this.y = this.y*c+this.x*s;
 	}
+};
+Point2.prototype.copy = function(p) {
+	this.x = p.x;
+	this.y = p.y;
 };
 // other
 Point2.sub = function(a,b){

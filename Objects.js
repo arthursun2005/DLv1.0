@@ -87,23 +87,29 @@ function World(scene){
 	this.blocks = [];
 	this.Line = new NormalLine(0,0,0,10);
 }
+World.prototype.init = function() {
+	for (var i = this.blocks.length - 1; i >= 0; i--) {
+		this.scene.add(this.blocks[i].cube);
+	}
+	this.scene.add(this.Line.cube);
+};
 World.prototype.addBlocks = function(blocks) {
 	for (var i = blocks.length - 1; i >= 0; i--) {
-		this.scene.add(blocks[i]);
+		this.scene.add(blocks[i].cube);
 		this.blocks.push(blocks[i]);
 	}
 };
 World.prototype.addBlock = function(block) {
-	this.scene.add(block);
+	this.scene.add(block.cube);
 	this.blocks.push(block);
 };
 World.prototype.removeBlock = function(id) {
-	this.scene.remove(this.blocks[id]);
+	this.scene.remove(this.blocks[id].cube);
 	this.blocks.splice(id,1);
 };
 World.prototype.changeLine = function(newLine) {
-	this.scene.remove(this.line);
-	this.line = newLine.copy();
+	this.scene.remove(this.Line.cube);
+	this.Line = newLine.copy(); line
 };
 World.prototype.solve = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
@@ -118,6 +124,6 @@ World.prototype.run = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		this.blocks[i].update();
 	}
-	this.line.update();
+	this.Line.update();
 };
 var levels = [];

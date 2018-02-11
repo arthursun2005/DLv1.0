@@ -3,7 +3,8 @@
 */
 window.onmousedown = DL.interact;
 window.ontouchstart = DL.interact;
-function autoCam(line){
+function autoCam(world){
+  var line = world.Line.copy();
   camera.rotation.x = -Math.PI/4;
   camera.rotation.z = Math.PI/4;
   camera.position.x+=(line.p.x-camera.position.x)*0.03;
@@ -13,6 +14,11 @@ function autoCam(line){
 var dtime;
 function animate() {
   dtime = Date.now()-StartTime;
+  /*
+    main solution
+  */
+  autoCam(DL);
+  DL.run(); // easy...
   requestAnimationFrame(animate);
   renderer.render(scene,camera);
 }

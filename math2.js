@@ -96,6 +96,18 @@ Point3.prototype.normalize = function() {
 	this.z/=n;
 };
 // other
+Point3.sub = function(a,b){
+	return new Point3(a.x-b.x,a.y-b.y,a.z-b.z);
+};
+Point3.add = function(a,b){
+	return new Point3(a.x-b.x,a.y-b.y,a.z+b.z);
+};
+Point3.mult = function(a,b){
+	return new Point3(a.x*b,a.y*b,a.z*b);
+};
+Point3.div = function(a,b){
+	return new Point3(a.x/b,a.y/b,a.z/b);
+};
 Point3.mag = function(p){
 	return mag3(p.x,p.y,p.z);
 };

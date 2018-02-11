@@ -18,6 +18,8 @@ function Block(x,y,z,dx,dy,dz){
 	this.cube.scale.copy(this.d);
 	this.cube.position.copy(this.p);
 	this.direction = 0;
+	this.cube.receiveShadow = true;
+	this.cube.castShadow = true;
 }
 Block.prototype.update = function() {
 	if(this.f) this.f();
@@ -45,8 +47,12 @@ function NormalLine(x,y,z,d){
 	this.cube = new THREE.Mesh(this.geometry,this.material);
 	this.cube.scale.copy(this.d);
 	this.cube.position.copy(this.p);
+	this.cube.receiveShadow = true;
+	this.cube.castShadow = true;
 	this.direction = 0;
-	this.dv = 4;
+	this.dv = 3;
+	this.inAir = true;
+	this.direction = 0;
 }
 NormalLine.prototype.move = function() {
 	if(this.direction == 0){
@@ -65,6 +71,7 @@ NormalLine.prototype.move = function() {
 };
 NormalLine.prototype.update = function() {
 	if(this.f) this.f();
+	this.move();
 	this.p.addVectors(this.p,this.v);
 	this.material = new THREE.MeshLambertMaterial({color:this.c});
 	this.cube.material = this.material;
@@ -87,6 +94,7 @@ function World(scene){
 	this.blocks = [];
 	this.Line = new NormalLine(0,0,0,10);
 	this.lineIsDead = [false,false];
+	this.gravity = 0;
 }
 World.prototype.init = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
@@ -113,18 +121,45 @@ World.prototype.changeLine = function(newLine) {
 	this.Line = newLine.copy();
 };
 World.prototype.solve = function() {
+	var hits = 0;
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		var b = this.blocks[i];
 		var test = straightBlockTest(this.Line, b);
 		var hit = test[0] && test[1] && test[2];
+		if(hit){
+			hits++;
+			if(b.dead){
+				this.lineIsDead = [true,false];
+			}else{
+				this.Line.v.y = 0;
+				this.Line.p.y = b.p.y+b.d.y/2+this.Line.d.y/2;
+			}
+		}
+	}
+	if(hits<=0) this.Line.inAir = true;
+	else this.Line.inAir = false;
+
+	if(!this.Line.inAir){
+		var c = this.Line.c;
+		var geometry = new THREE.BoxGeometry(1,1,1);
+		var material = new THREE.MeshLambertMaterial({color:c});
+		var cube = new THREE.Mesh(geometry,material);
+		cube.scale.copy(this.Line.d);
+		cube.position.copy(this.Line.p);
+		cube.receiveShadow = true;
+		cube.castShadow = true;
+		this.scene.add(cube);
 	}
 };
 World.prototype.interact = function(event) {
 	var e = event || window.event;
-	if(this.Line.direction == 0){
-		this.Line.direction = 3;
-	}else if(this.Line.direction == 3){
-		this.Line.direction = 0;
+	var thisWorld = DL;
+	if(!thisWorld.Line.inAir){
+		if(thisWorld.Line.direction == 0){
+			thisWorld.Line.direction = 3;
+		}else if(thisWorld.Line.direction == 3){
+			thisWorld.Line.direction = 0;
+		}
 	}
 };
 World.prototype.run = function() {
@@ -132,6 +167,7 @@ World.prototype.run = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		this.blocks[i].update();
 	}
+	this.Line.v.y+=this.gravity;
 	this.Line.update();
 };
 var levels = [];

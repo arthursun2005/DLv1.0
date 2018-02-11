@@ -10,12 +10,13 @@ function autoCamera(world){
   var line = world.Line.copy();
   camera.rotation.x = -Math.PI/4;
   camera.rotation.z = Math.PI/4;
-  camera.position.x+=(line.p.x-camera.position.x)*0.03;
-  camera.position.z+=(line.p.z+80-camera.position.z)*0.02;
-  camera.position.y = line.p.y+150;
+  camera.position.x+=(line.p.x-camera.position.x)*0.025;
+  camera.position.z+=(line.p.z+20-camera.position.z)*0.025;
+  camera.position.y = line.p.y+180;
 }
 var dtime;
 function animate() {
+  light.position.set(200+DL.Line.p.x,220+DL.Line.p.y,-200+DL.Line.p.z);
   dtime = Date.now()-StartTime;
   /*
     main solution

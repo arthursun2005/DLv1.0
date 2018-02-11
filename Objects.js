@@ -47,7 +47,7 @@ function NormalLine(x,y,z,d){
 	this.cube = new THREE.Mesh(this.geometry,this.material);
 	this.cube.scale.copy(this.d);
 	this.cube.position.copy(this.p);
-	this.cube.receiveShadow = true;
+	this.cube.receiveShadow = false;
 	this.cube.castShadow = true;
 	this.direction = 0;
 	this.dv = 3;
@@ -146,7 +146,7 @@ World.prototype.solve = function() {
 		var cube = new THREE.Mesh(geometry,material);
 		cube.scale.copy(this.Line.d);
 		cube.position.copy(this.Line.p);
-		cube.receiveShadow = true;
+		cube.receiveShadow = false;
 		cube.castShadow = true;
 		this.scene.add(cube);
 	}

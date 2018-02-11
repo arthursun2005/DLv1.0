@@ -3,5 +3,5 @@
 	beats of the music, so that it keeps in sync :)
 */
 var intervals1 = [
-	1,1,1,2,1,1,1,1
+	1,1,1,2,1,1,1,1,1
 ];

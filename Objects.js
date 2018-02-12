@@ -95,6 +95,7 @@ function World(scene){
 	this.Line = new NormalLine(0,0,0,10);
 	this.lineIsDead = [false,false];
 	this.gravity = 0;
+	this.tails = [];
 }
 World.prototype.init = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
@@ -148,6 +149,7 @@ World.prototype.solve = function() {
 		cube.position.copy(this.Line.p);
 		cube.receiveShadow = false;
 		cube.castShadow = true;
+		this.tails.push(cube);
 		this.scene.add(cube);
 	}
 };
@@ -169,5 +171,10 @@ World.prototype.run = function() {
 	}
 	this.Line.v.y+=this.gravity;
 	this.Line.update();
+
+	if(this.tails.length>50){
+		this.scene.remove(this.tails[0]);
+		this.tails.splice(0,1);
+	}
 };
 var levels = [];

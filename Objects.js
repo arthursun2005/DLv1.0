@@ -50,7 +50,7 @@ function NormalLine(x,y,z,d){
 	this.cube.receiveShadow = false;
 	this.cube.castShadow = true;
 	this.direction = 0;
-	this.dv = 3.5;
+	this.dv = 2.56;
 	this.inAir = true;
 	this.direction = 0;
 }
@@ -86,8 +86,18 @@ NormalLine.prototype.copy = function() {
 	l.direction = this.direction;
 	return l;
 };
-function createBlockFromInterval(a,b,d,t,w){
-	// a and b = length, d = direction, t = thickness, w = wideness.
+function createNormalBlockFromInterval(b,length,diameter,thickness,changeInY,changeInD,f){
+	var d1 = b.direction;
+	if(d1 == 0){
+		var nb = new Block(b.p.x-length/2-changeInD-b.d.x/2,b.p.y+changeInY+b.d.y/2-thickness/2,b.p.z-b.d.z/2+b.d.x/2,length+diameter,thickness,diameter);
+		if(f) f(nb);
+		nb.direction = 3;
+	}else if(d1 == 3){
+		var nb = new Block(b.p.x-b.d.x/2+b.d.z/2,b.p.y+changeInY+b.d.y/2-thickness/2,b.p.z-changeInD-length/2-b.d.z/2,diameter,thickness,length+diameter);
+		if(f) f(nb);
+		nb.direction = 0;
+	}
+	return nb;
 }
 function World(scene){
 	this.scene = scene;

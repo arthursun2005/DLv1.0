@@ -3,9 +3,15 @@
 */
 window.onmousedown = DL.interact;
 window.ontouchstart = DL.interact;
-
+var w1 = 27;
 var b  = new Block(0,-2,0,10,4,10);
 DL.addBlock(b);
+var b  = new Block(0,-10,-120,w1,4,120);
+DL.addBlock(b);
+// b,length,diameter,thickness,changeInY,changeInD,turn,f
+for (var i = 0; i < intervals1.length; i++) {
+  DL.addBlock(createNormalBlockFromInterval(DL.blocks[DL.blocks.length-1],120*intervals1[i],w1,5,0,0));
+}
 function autoCamera(world){
   var line = world.Line.copy();
   camera.rotation.x = -Math.PI/4;

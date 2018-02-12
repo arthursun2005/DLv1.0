@@ -50,7 +50,7 @@ function NormalLine(x,y,z,d){
 	this.cube.receiveShadow = false;
 	this.cube.castShadow = true;
 	this.direction = 0;
-	this.dv = 4;
+	this.dv = 3.5;
 	this.inAir = true;
 	this.direction = 0;
 }
@@ -165,12 +165,12 @@ World.prototype.interact = function(event) {
 	}
 };
 World.prototype.run = function() {
+	this.Line.v.y+=this.gravity;
+	this.Line.update();
 	this.solve();
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		this.blocks[i].update();
 	}
-	this.Line.v.y+=this.gravity;
-	this.Line.update();
 
 	if(this.tails.length>50){
 		this.scene.remove(this.tails[0]);

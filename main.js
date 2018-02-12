@@ -4,7 +4,7 @@
 window.onmousedown = DL.interact;
 window.ontouchstart = DL.interact;
 
-var b  = new Block(0,-20,0,8000,10,8000);
+var b  = new Block(0,-2,0,10,4,10);
 DL.addBlock(b);
 function autoCamera(world){
   var line = world.Line.copy();

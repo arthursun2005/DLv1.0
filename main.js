@@ -5,12 +5,14 @@ window.onmousedown = DL.interact;
 window.ontouchstart = DL.interact;
 var w1 = 30;
 var sr = 15/2;
-var b  = new Block(0,-2,0,10,4,10);
-DL.addBlock(b);
-var b  = new Block(0,-10,-sr,w1,w1,240);
+var b  = new Block(0,-w1,0,w1,w1,w1);
+b.direction = 3;
 DL.addBlock(b);
 // b,length,diameter,thickness,changeInY,changeInD,turn,f
-for (var i = 0; i < Data.intervals1.length; i++) {
+var y = 0, d = 0;
+y = -30, d = 100;
+DL.addBlock(createNormalBlockFromInterval(DL.blocks[DL.blocks.length-1],sr*Data.intervals1[0]-d,w1,w1,y,d));
+for (var i = 1; i < Data.intervals1.length; i++) {
   var y = 0, d = 0;
   if(Data.intervals1[i] == 32){
     y = -170;
@@ -19,7 +21,7 @@ for (var i = 0; i < Data.intervals1.length; i++) {
   DL.addBlock(createNormalBlockFromInterval(DL.blocks[DL.blocks.length-1],sr*Data.intervals1[i]-d,w1,w1,y,d));
 }
 function autoCamera(world){
-  var l1 = 75;
+  var l1 = 150-ww/20;
   var line = world.Line.copy();
   camera.rotation.x+=(-Math.PI/4-camera.rotation.x)*0.07;
   camera.rotation.z+=(Math.PI/4-camera.rotation.z)*0.07;
@@ -37,7 +39,7 @@ function backCam(world){
   camera.position.y+=(line.p.y+l1*2-camera.position.y)*0.06;
 };
 function closeCam(world){
-  var l1 = Math.min(ww,hh)/25;
+  var l1 = 100-ww/20;
   var line = world.Line.copy();
   camera.rotation.x+=(-Math.PI/4-camera.rotation.x)*0.07;
   camera.rotation.z+=(Math.PI/8-camera.rotation.z)*0.07;

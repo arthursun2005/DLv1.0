@@ -8,7 +8,7 @@ function Block(x,y,z,dx,dy,dz){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(dx,dy,dz);
 	this.v = new THREE.Vector3();
-	this.c = 0x777777;
+	this.c = 0x555555;
 	this.kill = false;
 	this.hit = false;
 	this.f = null;
@@ -41,7 +41,7 @@ function NormalLine(x,y,z,d){
 	this.d = new THREE.Vector3(d,d,d);
 	this.v = new THREE.Vector3();
 	this.f = null;
-	this.c = 0xFFEE66;
+	this.c = 0xaa5500;
 	this.geometry = new THREE.BoxGeometry(1,1,1);
 	this.material = new THREE.MeshLambertMaterial({color:this.c});
 	this.cube = new THREE.Mesh(this.geometry,this.material);
@@ -182,7 +182,7 @@ World.prototype.run = function() {
 		this.blocks[i].update();
 	}
 
-	if(this.tails.length>50){
+	if(this.tails.length>30){
 		this.scene.remove(this.tails[0]);
 		this.tails.splice(0,1);
 	}

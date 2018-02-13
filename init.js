@@ -9,6 +9,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 var camera = new THREE.PerspectiveCamera(75,ww/hh,1,1e10);
 var scene = new THREE.Scene();
 scene.background = true;
+scene.fog = new THREE.FogExp2(0xffffff,0.0075);
 scene.add(camera);
 var dead = false, win = false;
 const g = -1/24;

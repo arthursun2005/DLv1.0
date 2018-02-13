@@ -8,6 +8,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 var camera = new THREE.PerspectiveCamera(75,ww/hh,1,1e10);
 var scene = new THREE.Scene();
+scene.background = true;
 scene.add(camera);
 var dead = false, win = false;
 const g = -1/24;

@@ -8,7 +8,7 @@ function Block(x,y,z,dx,dy,dz){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(dx,dy,dz);
 	this.v = new THREE.Vector3();
-	this.c = 0x555555;
+	this.c = 0xdd8800;
 	this.kill = false;
 	this.hit = false;
 	this.f = null;

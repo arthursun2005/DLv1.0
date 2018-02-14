@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
-<audio autoplay>
+<audio id="music" autoplay>
 	<source src="sounds/music.mp3" type="audio/mpeg">
-	<source src="sounds/music.ogg" type="audio/ogg">
 </audio>
+<script type="text/javascript">
+	document.getElementById('music').src = "sounds/music.mp3";
+	document.getElementById('music').autoplay = "autoplay";
+	document.getElementById('music').load();
+	document.getElementById('music').play();
+</script>
 <script type="text/javascript" src="three.js"></script>
 <script type="text/javascript" src="math2.js"></script>
 <head>
-	<title>DLv1.0</title>
+	<title>danse macabre</title>
 </head>
 <body>
 <div id="container"></div>

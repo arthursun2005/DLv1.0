@@ -8,7 +8,7 @@ function Block(x,y,z,dx,dy,dz){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(dx,dy,dz);
 	this.v = new THREE.Vector3();
-	this.c = 0xdd8800;
+	this.c = 0xdf9900;
 	this.kill = false;
 	this.hit = false;
 	this.f = null;
@@ -73,7 +73,7 @@ function NormalLine(x,y,z,d){
 	this.d = new THREE.Vector3(d,d,d);
 	this.v = new THREE.Vector3();
 	this.f = null;
-	this.c = 0xaa5500;
+	this.c = 0x773800;
 	this.geometry = new THREE.BoxGeometry(1,1,1);
 	this.material = new THREE.MeshLambertMaterial({color:this.c});
 	this.cube = new THREE.Mesh(this.geometry,this.material);
@@ -240,4 +240,13 @@ World.prototype.run = function() {
 		this.tails.splice(0,1);
 	}
 };
-var levels = [];
+function Tree(x,y,z,size,nl){
+	this.p = new THREE.Vector3(x,y,z);
+	this.v = new THREE.Vector3();
+}
+Tree.prototype.update = function() {
+};
+function Gem(x,y,z){
+}
+function Crown(x,y,z){
+}

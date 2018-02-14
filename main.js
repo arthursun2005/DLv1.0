@@ -24,7 +24,7 @@ function backCam(world){
   camera.position.y+=(line.p.y+l1*2-camera.position.y)*0.06;
 };
 function closeCam(world){
-  var l1 = 94-ww/20;
+  var l1 = 120-ww/15;
   var line = world.Line.copy();
   camera.rotation.x+=(-Math.PI/4-camera.rotation.x)*0.07;
   camera.rotation.z+=(Math.PI/8-camera.rotation.z)*0.07;
@@ -47,7 +47,7 @@ function animate() {
   }else{
     backCam(DL);
   }
-  if(dtime>10000){
+  if(dtime>11500){
     fog.density*=0.995;
   }
   requestAnimationFrame(animate);

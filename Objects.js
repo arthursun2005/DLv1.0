@@ -36,6 +36,38 @@ Block.prototype.copy = function() {
 	b.direction = this.direction;
 	return b;
 };
+function DBlock(x,y,z,dx,dy,dz){
+	this.p = new THREE.Vector3(x,y,z);
+	this.d = new THREE.Vector3(dx,dy,dz);
+	this.v = new THREE.Vector3();
+	this.a = new THREE.Vector3();
+	this.c = 0x009900;
+	this.f = null;
+	this.geometry = new THREE.BoxGeometry(1,1,1);
+	this.material = new THREE.MeshLambertMaterial({color:this.c});
+	this.cube = new THREE.Mesh(this.geometry,this.material);
+	this.cube.scale.copy(this.d);
+	this.cube.position.copy(this.p);
+	this.direction = 0;
+	this.cube.receiveShadow = true;
+	this.cube.castShadow = true;
+}
+DBlock.prototype.update = function() {
+	if(this.f) this.f();
+	this.p.addVectors(this.p,this.v);
+	this.material = new THREE.MeshLambertMaterial({color:this.c});
+	this.cube.material = this.material;
+	this.cube.scale.copy(this.d);
+	this.cube.position.copy(this.p);
+	this.cube.rotation.copy(this.a);
+};
+DBlock.prototype.copy = function() {
+	var b = new DBlock(this.p.x,this.p.y,this.p.z,this.d.x,this.d.y,this.d.z);
+	b.f = this.f;
+	b.c = this.c;
+	b.direction = this.direction;
+	return b;
+};
 function NormalLine(x,y,z,d){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(d,d,d);
@@ -102,6 +134,7 @@ function createNormalBlockFromInterval(b,length,diameter,thickness,changeInY,cha
 function World(scene){
 	this.scene = scene;
 	this.blocks = [];
+	this.dblocks = [];
 	this.Line = new NormalLine(0,0,0,10);
 	this.lineIsDead = [false,false];
 	this.gravity = 0;
@@ -111,6 +144,9 @@ World.prototype.init = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		this.scene.add(this.blocks[i].cube);
 	}
+	for (var i = this.dblocks.length - 1; i >= 0; i--) {
+		this.scene.add(this.dblocks[i].cube);
+	}
 	this.scene.add(this.Line.cube);
 };
 World.prototype.addBlocks = function(blocks) {
@@ -119,36 +155,53 @@ World.prototype.addBlocks = function(blocks) {
 		this.blocks.push(blocks[i]);
 	}
 };
+World.prototype.addDBlocks = function(dblocks) {
+	for (var i = dblocks.length - 1; i >= 0; i--) {
+		this.scene.add(dblocks[i].cube);
+		this.dblocks.push(dblocks[i]);
+	}
+};
 World.prototype.addBlock = function(block) {
 	this.scene.add(block.cube);
 	this.blocks.push(block);
 };
+World.prototype.addDBlock = function(dblock) {
+	this.scene.add(dblock.cube);
+	this.dblock.push(dblock);
+};
 World.prototype.removeBlock = function(id) {
 	this.scene.remove(this.blocks[id].cube);
 	this.blocks.splice(id,1);
+};
+World.prototype.removeDBlock = function(id) {
+	this.scene.remove(this.dblocks[id].cube);
+	this.dblocks.splice(id,1);
 };
 World.prototype.changeLine = function(newLine) {
 	this.scene.remove(this.Line.cube);
 	this.Line = newLine.copy();
 };
 World.prototype.solve = function() {
-	var hits = 0;
-	for (var i = this.blocks.length - 1; i >= 0; i--) {
+	this.Line.inAir = true;
+	for (var i = 0; i<this.blocks.length; i++) {
 		var b = this.blocks[i];
 		var test = straightBlockTest(this.Line, b);
 		var hit = test[0] && test[1] && test[2];
-		if(hit){
-			hits++;
-			if(b.dead){
-				this.lineIsDead = [true,false];
-			}else{
-				this.Line.v.y = 0;
-				this.Line.p.y = b.p.y+b.d.y/2+this.Line.d.y/2;
-			}
+		if(!hit) continue;
+		if(b.dead){
+			this.lineIsDead = [true,false];
+		}else{
+			this.Line.v.y = 0;
+			this.Line.p.y = b.p.y+b.d.y/2+this.Line.d.y/2;
 		}
+		this.Line.inAir = false;
+		break;
 	}
-	if(hits<=0) this.Line.inAir = true;
-	else this.Line.inAir = false;
+	for (var i = this.dblocks.length - 1; i >= 0; i--) {
+		this.dblocks[i].update();
+	}
+	//if(hits<=0) this.Line.inAir = true;
+	//else this.Line.inAir = false;
 
 	if(!this.Line.inAir){
 		var c = this.Line.c;

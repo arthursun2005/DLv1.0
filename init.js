@@ -9,23 +9,9 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 var camera = new THREE.PerspectiveCamera(75,ww/hh,1,1e10);
 var scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
-
-
-// create an AudioListener and add it to the camera
-var listener = new THREE.AudioListener();
-camera.add( listener );
-
-// create an Audio source
-var sound = new THREE.Audio( listener );
-
-// load a sound and set it as the Audio object's buffer
-var audioLoader = new THREE.AudioLoader();
-// create an AudioAnalyser, passing in the sound and desired fftSize
-var analyser = new THREE.AudioAnalyser( sound, 32 );
-var fog = new THREE.FogExp2(0xffffff,0.0085);
+var fog = new THREE.FogExp2(0xffffff,0.008);
 scene.fog = fog;
 scene.add(camera);
-var dead = false, win = false;
 const g = -1/24;
 const StartTime = Date.now();
 container.appendChild(renderer.domElement);

@@ -8,7 +8,7 @@ function Block(x,y,z,dx,dy,dz){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(dx,dy,dz);
 	this.v = new THREE.Vector3();
-	this.c = 0xdf9900;
+	this.c = 0xde7600;
 	this.kill = false;
 	this.hit = false;
 	this.f = null;
@@ -20,6 +20,7 @@ function Block(x,y,z,dx,dy,dz){
 	this.direction = 0;
 	this.cube.receiveShadow = true;
 	this.cube.castShadow = true;
+	this.triggers = [false,false,false,false,false];
 }
 Block.prototype.update = function() {
 	if(this.f) this.f();
@@ -51,6 +52,7 @@ function DBlock(x,y,z,dx,dy,dz){
 	this.direction = 0;
 	this.cube.receiveShadow = true;
 	this.cube.castShadow = true;
+	this.triggers = [false,false,false,false,false];
 }
 DBlock.prototype.update = function() {
 	if(this.f) this.f();
@@ -85,6 +87,7 @@ function NormalLine(x,y,z,d){
 	this.dv = 2.56;
 	this.inAir = true;
 	this.direction = 0;
+	this.triggers = [false,false,false,false,false];
 }
 NormalLine.prototype.move = function() {
 	if(this.direction == 0){
@@ -133,12 +136,15 @@ function createNormalBlockFromInterval(b,length,diameter,thickness,changeInY,cha
 }
 function World(scene){
 	this.scene = scene;
-	this.blocks = [];
-	this.dblocks = [];
 	this.Line = new NormalLine(0,0,0,10);
 	this.lineIsDead = [false,false];
 	this.gravity = 0;
 	this.tails = [];
+	this.blocks = [];
+	this.dblocks = [];
+	this.trees = [];
+	this.gems = [];
+	this.crowns = [];
 }
 World.prototype.init = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
@@ -187,22 +193,27 @@ World.prototype.solve = function() {
 		var b = this.blocks[i];
 		var test = straightBlockTest(this.Line, b);
 		var hit = test[0] && test[1] && test[2];
-		if(!hit) continue;
-		if(b.dead){
+		if(!hit){
+			if(b.triggers[0]){
+				b.triggers[1] = true;
+			}
+			continue;
+		}
+		if(b.triggers[1]) continue;
+		if(b.dead || this.Line.p.y<b.p.y+b.d.y/2){
 			this.lineIsDead = [true,false];
 		}else{
 			this.Line.v.y = 0;
 			this.Line.p.y = b.p.y+b.d.y/2+this.Line.d.y/2;
 		}
 		this.Line.inAir = false;
+		b.hit = true;
+		b.triggers[0] = true;
 		break;
 	}
 	for (var i = this.dblocks.length - 1; i >= 0; i--) {
 		this.dblocks[i].update();
 	}
-	//if(hits<=0) this.Line.inAir = true;
-	//else this.Line.inAir = false;
-
 	if(!this.Line.inAir){
 		var c = this.Line.c;
 		var geometry = new THREE.BoxGeometry(1,1,1);
@@ -235,16 +246,29 @@ World.prototype.run = function() {
 		this.blocks[i].update();
 	}
 
-	if(this.tails.length>30){
+	if(this.tails.length>35){
 		this.scene.remove(this.tails[0]);
 		this.tails.splice(0,1);
 	}
 };
-function Tree(x,y,z,size,nl){
+function Tree(x,y,z){
 	this.p = new THREE.Vector3(x,y,z);
 	this.v = new THREE.Vector3();
+	this.blocks = [];
+	this.data = {
+		df: 0.75,
+		size: 1,
+		nl: 3,
+		h1: 180,
+		h2: 200,
+		ts: 100
+	};
+	this.cubes = [];
 }
 Tree.prototype.update = function() {
+	this.cubes = [];
+	for (var i=0;i<nl;i++) {
+	}
 };
 function Gem(x,y,z){
 }

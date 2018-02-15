@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
-<audio id="music" autoplay>
-	<source src="sounds/music.mp3" type="audio/mpeg">
-</audio>
-<script type="text/javascript">
-	document.getElementById('music').src = "sounds/music.mp3";
-	document.getElementById('music').autoplay = "autoplay";
-	document.getElementById('music').load();
-	document.getElementById('music').play();
-</script>
+<style type="text/css">
+	body {
+		font-family: monospace;
+	}
+</style>
+<audio id="player"></audio>
 <script type="text/javascript" src="three.js"></script>
 <script type="text/javascript" src="math2.js"></script>
 <head>
-	<title>danse macabre</title>
+	<title>Dancing Line</title>
 </head>
 <body>
 <div id="container"></div>
@@ -20,5 +17,9 @@
 <script type="text/javascript" src="Data.js"></script>
 <script type="text/javascript" src="init.js"></script>
 <script type="text/javascript" src="main.js"></script>
+<script type="text/javascript">
+	var audio = new Audio('sounds/m1.MP3');
+	audio.play();
+</script>
 </body>
 </html>

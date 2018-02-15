@@ -4,7 +4,6 @@
 window.onmousedown = DL.interact;
 window.ontouchstart = DL.interact;
 window.onkeydown = DL.interact;
-DL.addBlocks(Data.music.make1());
 function autoCamera(world){
   var l1 = 150-ww/20;
   var line = world.Line.copy();
@@ -40,14 +39,17 @@ function animate() {
     main solution
   */
   DL.run(); // easy...
-  if(dtime<6400){
+  if(dtime<12000){
     closeCam(DL);
-  }else if(dtime<30000 || dtime>42000){
-    autoCamera(DL);
   }else{
-    backCam(DL);
+    autoCamera(DL);
   }
-  if(dtime>11500){
+  //else if(dtime<30000 || dtime>42000){
+    //autoCamera(DL);
+  //}else{
+    //backCam(DL);
+  //}
+  if(dtime>22500){
     fog.density*=0.995;
   }
   requestAnimationFrame(animate);

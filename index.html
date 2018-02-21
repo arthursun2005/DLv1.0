@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
-<style type="text/css">
-	body {
-		font-family: monospace;
+<audio id="a1" src="sounds/m1.MP3"></audio>
+<script type="text/javascript">
+	var audio = document.getElementById('a1');
+	audio.load();
+	var d1 = {a: 0,b: false};
+	function play(){
+		if(d1.a<=0) audio.play();
+		d1.a++;
 	}
+	window.addEventListener("mousedown", play, false);
+	window.addEventListener("touchstart", play, false);
+	window.addEventListener("keydown", play, false);
+</script>
+<style type="text/css">
+	body {font-family: monospace;text-align: center;}
 </style>
-<audio id="player"></audio>
 <script type="text/javascript" src="three.js"></script>
 <script type="text/javascript" src="math2.js"></script>
 <head>
@@ -13,13 +23,21 @@
 </head>
 <body>
 <div id="container"></div>
+<div>
+<button onclick="pause()" style="width: 250px;height: 60px;font-size: 30px">
+Pause
+</button>
+<script type="text/javascript">
+	function pause(){
+		if(!d1.b) audio.pause();
+		else audio.play();
+		d1.b = !d1.b;
+	}
+</script>
+</div>
 <script type="text/javascript" src="Objects.js"></script>
 <script type="text/javascript" src="Data.js"></script>
 <script type="text/javascript" src="init.js"></script>
 <script type="text/javascript" src="main.js"></script>
-<script type="text/javascript">
-	var audio = new Audio('sounds/m1.MP3');
-	audio.play();
-</script>
 </body>
 </html>

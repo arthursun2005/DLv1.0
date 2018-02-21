@@ -8,7 +8,7 @@ function Block(x,y,z,dx,dy,dz){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(dx,dy,dz);
 	this.v = new THREE.Vector3();
-	this.c = 0xde7600;
+	this.c = 0x333333;
 	this.kill = false;
 	this.hit = false;
 	this.f = null;
@@ -84,7 +84,7 @@ function NormalLine(x,y,z,d){
 	this.cube.receiveShadow = false;
 	this.cube.castShadow = true;
 	this.direction = 0;
-	this.dv = 2.56;
+	this.dv = 2.4;
 	this.inAir = true;
 	this.direction = 0;
 	this.triggers = [false,false,false,false,false];
@@ -134,6 +134,41 @@ function createNormalBlockFromInterval(b,length,diameter,thickness,changeInY,cha
 	}
 	return nb;
 }
+function Tree(x,y,z){
+	this.p = new THREE.Vector3(x,y,z);
+	this.v = new THREE.Vector3();
+	this.blocks = [];
+	this.data = {
+		df: 0.75,
+		size: 1,
+		nl: 3,
+		h1: 180,
+		h2: 200,
+		ts: 100
+	};
+	this.cubes = [];
+	this.f = null;
+}
+Tree.prototype.update = function() {
+	if(this.f) this.f();
+	this.cubes = [];
+	for (var i=0;i<this.data.nl;i++) {
+	}
+};
+function Gem(x,y,z){
+	this.p = new THREE.Vector3(x,y,z);
+	this.v = new THREE.Vector3();
+	this.c = 0x8888ff;
+}
+Gem.prototype.update = function() {
+};
+function Crown(x,y,z){
+	this.p = new THREE.Vector3(x,y,z);
+	this.v = new THREE.Vector3();
+	this.c = 0xffee22;
+}
+Crown.prototype.update = function() {
+};
 function World(scene){
 	this.scene = scene;
 	this.Line = new NormalLine(0,0,0,10);
@@ -238,39 +273,15 @@ World.prototype.interact = function(event) {
 		}
 	}
 };
-World.prototype.run = function() {
+World.prototype.update = function() {
 	this.Line.v.y+=this.gravity;
 	this.Line.update();
 	this.solve();
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		this.blocks[i].update();
 	}
-
 	if(this.tails.length>35){
 		this.scene.remove(this.tails[0]);
 		this.tails.splice(0,1);
 	}
 };
-function Tree(x,y,z){
-	this.p = new THREE.Vector3(x,y,z);
-	this.v = new THREE.Vector3();
-	this.blocks = [];
-	this.data = {
-		df: 0.75,
-		size: 1,
-		nl: 3,
-		h1: 180,
-		h2: 200,
-		ts: 100
-	};
-	this.cubes = [];
-}
-Tree.prototype.update = function() {
-	this.cubes = [];
-	for (var i=0;i<nl;i++) {
-	}
-};
-function Gem(x,y,z){
-}
-function Crown(x,y,z){
-}

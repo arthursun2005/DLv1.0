@@ -7,8 +7,11 @@
 function Block(x,y,z,dx,dy,dz){
 	this.p = new THREE.Vector3(x,y,z);
 	this.d = new THREE.Vector3(dx,dy,dz);
+	this.pc = new THREE.Vector3(x,y,z);
+	this.dc = new THREE.Vector3(dx,dy,dz);
 	this.v = new THREE.Vector3();
 	this.c = 0x333333;
+	this.world = null;
 	this.kill = false;
 	this.hit = false;
 	this.f = null;
@@ -44,6 +47,7 @@ function DBlock(x,y,z,dx,dy,dz){
 	this.a = new THREE.Vector3();
 	this.c = 0x009900;
 	this.f = null;
+	this.world = null;
 	this.geometry = new THREE.BoxGeometry(1,1,1);
 	this.material = new THREE.MeshLambertMaterial({color:this.c});
 	this.cube = new THREE.Mesh(this.geometry,this.material);
@@ -159,6 +163,8 @@ function Gem(x,y,z){
 	this.p = new THREE.Vector3(x,y,z);
 	this.v = new THREE.Vector3();
 	this.c = 0x8888ff;
+	this.rings = 4;
+	this.segments = 2;
 }
 Gem.prototype.update = function() {
 };
@@ -184,9 +190,11 @@ function World(scene){
 World.prototype.init = function() {
 	for (var i = this.blocks.length - 1; i >= 0; i--) {
 		this.scene.add(this.blocks[i].cube);
+		this.blocks.world = this;
 	}
 	for (var i = this.dblocks.length - 1; i >= 0; i--) {
 		this.scene.add(this.dblocks[i].cube);
+		this.dblocks.world = this;
 	}
 	this.scene.add(this.Line.cube);
 };

@@ -7,8 +7,8 @@ var U = {
 		this.d = DL.dblocks[DL.dblocks.length-1];
 	},
 	C: {
-  		auto: function(world){
-			var l1 = 165-ww/20;
+  		auto: function(world,t = 0){
+			var l1 = 165-ww/20+t;
 			var line = world.Line.copy();
 			camera.rotation.x+=(-Math.PI/4-camera.rotation.x)*0.07;
 			camera.rotation.z+=(Math.PI/4-camera.rotation.z)*0.07;
@@ -16,8 +16,8 @@ var U = {
 			camera.position.z+=(line.p.z+l1-camera.position.z)*0.025;
 			camera.position.y+=(line.p.y+l1*2-camera.position.y)*0.06;
 		},
-		back: function(world) {
-			var l1 = 150-ww/20;
+		back: function(world,t = 0) {
+			var l1 = 150-ww/20+t;
 			var line = world.Line.copy();
 			camera.rotation.x+=(-Math.PI/2-camera.rotation.x)*0.07;
 			camera.rotation.z+=(Math.PI+Math.PI/4-camera.rotation.z)*0.07;
@@ -25,8 +25,8 @@ var U = {
 			camera.position.z+=(line.p.z-l1-camera.position.z)*0.025;
 			camera.position.y+=(line.p.y+l1*2-camera.position.y)*0.06;
 		},
-		close: function(world) {
-			var l1 = 120-ww/16.5;
+		close: function(world,t = 0) {
+			var l1 = 120-ww/16.5+t;
 			var line = world.Line.copy();
 			camera.rotation.x+=(-Math.PI/4-camera.rotation.x)*0.07;
 			camera.rotation.z+=(Math.PI/8-camera.rotation.z)*0.07;
@@ -42,7 +42,7 @@ var bs = Data.m1.make1();
 for(var i=0;i<bs.length;i++) DL.addBlock(bs[i]);
 DL.update();
 function animate() {
-	if(d1.b || d1.a<=0){
+	if(!d1.p){
 		renderer.render(scene,camera);
 		requestAnimationFrame(animate);
 		return;
@@ -50,8 +50,10 @@ function animate() {
 	DL.update();
 	requestAnimationFrame(animate);
 	light.position.set(200+DL.Line.p.x,220+DL.Line.p.y,-200+DL.Line.p.z);
-	if(dtime<420 || (dtime>570 && dtime<770)){
+	if(dtime<420 || (dtime>570 && dtime<1000)){
 		U.C.close(DL);
+	}else if(false){
+		U.C.back(DL);
 	}else{
 		U.C.auto(DL);
 	}

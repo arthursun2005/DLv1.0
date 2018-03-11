@@ -4,11 +4,16 @@
 <script type="text/javascript">
 	var audio = document.getElementById('a1');
 	audio.load();
-	var d1 = {a: 0,b: false};
+	var d1 = {p: false};
 	function play(){
-		if(d1.a<=0) audio.play();
-		d1.a++;
+		audio.play();
+		d1.p = true;
 	}
+	audio.addEventListener("play", function(){
+		window.removeEventListener("mousedown", play, false);
+		window.removeEventListener("touchstart", play, false);
+		window.removeEventListener("keydown", play, false);
+	},false);
 	window.addEventListener("mousedown", play, false);
 	window.addEventListener("touchstart", play, false);
 	window.addEventListener("keydown", play, false);
@@ -24,14 +29,14 @@
 <body>
 <div id="container"></div>
 <div>
-<button onclick="pause()" style="width: 250px;height: 60px;font-size: 30px">
+<button onclick="pause()" style="width: 180px;height: 40px;font-size: 30px">
 Pause
 </button>
 <script type="text/javascript">
 	function pause(){
-		if(!d1.b) audio.pause();
+		if(d1.p) audio.pause();
 		else audio.play();
-		d1.b = !d1.b;
+		d1.p = !d1.p;
 	}
 </script>
 </div>

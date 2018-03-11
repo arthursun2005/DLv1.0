@@ -29,3 +29,6 @@ var DL = new World(scene);
 DL.gravity = g;
 DL.init();
 var dtime = 0;
+
+
+var texture = new THREE.TextureLoader().load('imgs/img1.jpeg');
